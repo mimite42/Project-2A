@@ -7,8 +7,23 @@ project(test)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED)
-
+find_package(catkin REQUIRED COMPONENTS
+  message_generation
+  message_runtime
+  roscpp
+  rospy
+  std_msgs
+  control_msgs
+  controller_manager
+  effort_controllers
+  gripper_action_controller
+  joint_state_controller
+  joint_trajectory_controller
+  ur3_description
+  robot_state_publisher
+  sensor_msgs
+  trajectory_msgs
+)
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
@@ -219,7 +234,9 @@ install(DIRECTORY
   PATTERN ".svn" EXCLUDE
 )
 ## Adding STL files
-
+catkin_install_python(PROGRAMS src/moveit_tutorial.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
 
 
 

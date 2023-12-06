@@ -12,5 +12,6 @@
 
 	<!-- Run Rviz and load the default config to see the state of the move_group node -->
   <node name="rviz" pkg="rviz" type="rviz" args="-d /home/yoann/catkin_ws/src/test/rviz/cell.rviz"/>
+  
 </launch>
 
