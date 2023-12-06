@@ -14,15 +14,6 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   control_msgs
-  controller_manager
-  effort_controllers
-  gripper_action_controller
-  joint_state_controller
-  joint_trajectory_controller
-  ur3_description
-  robot_state_publisher
-  sensor_msgs
-  trajectory_msgs
 )
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
