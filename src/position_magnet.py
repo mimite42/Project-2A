@@ -1,9 +1,13 @@
+#!/usr/bin/env python
+
 import json
-import matplotlib.pyplot as plt
-import matplotlib.patches as patches
+import rospy
+from std_msgs.msg import Float32MultiArray
+
+chemin_fichier = '/home/yoann/catkin_ws/src/test/src/bonding.json'
 
 # Charger les données depuis le fichier JSON
-with open('bonding.json', 'r') as fichier:
+with open(chemin_fichier, 'r') as fichier:
     donnees = json.load(fichier)
 
 # Variables pour les dimensions du magnét
@@ -38,24 +42,19 @@ for i in range(nombre_de_lignes):
 
 print(coordonnees)
 
+# Initialiser le nœud ROS
+rospy.init_node('position_magnet', anonymous=True)
 
-#### VISUALISATION 2D #####
+# Créer un éditeur pour publier sur le topic "pos_mark"
+pos_mark_pub = rospy.Publisher('pos_mark', Float32MultiArray, queue_size=10)
 
-fig, ax = plt.subplots()
+# Taux de publication
+rate = rospy.Rate(1)  # 1 Hz
 
-x = [coordonnees[i][0] for i in range(len(coordonnees))]
-y = [coordonnees[i][1] for i in range(len(coordonnees))]
-
-
-for i in range(len(coordonnees)):
-    rectangle = patches.Rectangle((x[i] - largeur_magnet/2, y[i] - longueur_magnet/2), largeur_magnet, longueur_magnet, linewidth=1, edgecolor='r', facecolor='none')
-    ax.add_patch(rectangle)
-    ax.text(x[i] - largeur_magnet/2, y[i] + longueur_magnet/2, str(i + 1), fontsize=8, color='r')
+while not rospy.is_shutdown():
+    # Créer un message Float32MultiArray et publier la liste de coordonnées
+    pos_mark_msg = Float32MultiArray(data=sum(coordonnees, []))
+    pos_mark_pub.publish(pos_mark_msg)
     
-plt.plot(x, y, 'o')
-
-ax.set_xlim(-25, 200) 
-ax.set_ylim(-25, 225) 
- 
-plt.show()
+    rate.sleep()
 
