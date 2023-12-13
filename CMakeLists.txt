@@ -225,8 +225,14 @@ install(DIRECTORY
   PATTERN ".svn" EXCLUDE
 )
 ## Adding STL files
-catkin_install_python(PROGRAMS src/moveit_tutorial.py
+catkin_install_python(PROGRAMS src/moveit_tutorial.py src/lire_json.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+## Ajoutez cette ligne pour installer le fichier bounding.json
+install(FILES
+  config/bounding.json
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/config
 )
 
 
