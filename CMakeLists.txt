@@ -225,7 +225,7 @@ install(DIRECTORY
   PATTERN ".svn" EXCLUDE
 )
 ## Adding STL files
-catkin_install_python(PROGRAMS src/moveit_tutorial.py src/lire_json.py
+catkin_install_python(PROGRAMS src/moveit_tutorial.py src/lire_json.py src/position_magnet.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
