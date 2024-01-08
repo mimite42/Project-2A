@@ -50,7 +50,7 @@ install(DIRECTORY
   PATTERN ".svn" EXCLUDE
 )
 
-catkin_install_python(PROGRAMS src/ros/moveit_tutorial.py src/ros/lire_json.py src/ros/position_magnet.py src/ros/marker.py src/ros/marker_subscriber.py src/ros_action/pos_magnet_client.py src/ros_action/marker_server.py
+catkin_install_python(PROGRAMS src/ros/moveit_tutorial.py src/ros/lire_json.py src/ros/position_magnet.py src/ros/marker.py src/ros/marker_subscriber.py src/ros_action/pos_magnet_client.py src/ros_action/marker_server.py src/ros/go_to_pos.py src/ros/marker_publisher.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

@@ -12,7 +12,8 @@
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find test)/rviz/cell.rviz"/>
 
   <!-- Run the marker.py script -->
-  <node name="marker_node" pkg="test" type="marker.py" output="screen"/>
+  <node name="marker_node" pkg="test" type="marker_publisher.py" output="screen"/>
+  
 
 </launch>
 
