@@ -221,5 +221,7 @@ install(DIRECTORY
 ## Adding STL files
 
 
-
+catkin_install_python(PROGRAMS script/moveit_tutorial.py script/myfile.py script/marker.py script/marker_publisher.py script/r_publisher.py script/test_publish_markerarray.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
 

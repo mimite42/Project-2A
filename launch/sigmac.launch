@@ -2,7 +2,7 @@
 <launch>
 
   <!-- Load the robot description from the Xacro file -->
-  <arg name="xacro_file" default="//home/younes/ur3_ws/src/test/sigma_cell.xacro"/>
+  <arg name="xacro_file" default="//home/younes/ur3_ws/src/test/sigma.xacro"/>
   <param name="robot_description" command="$(find xacro)/xacro $(arg xacro_file)"/>
 
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
@@ -11,6 +11,6 @@
 
 
 	<!-- Run Rviz and load the default config to see the state of the move_group node -->
-  <node name="rviz" pkg="rviz" type="rviz" args="-d /home/younes/ur3_ws/src/test/rviz/cell.rviz"/>
+  <node name="rviz" pkg="rviz" type="rviz" args="-d /home/younes/ur3_ws/src/test/rviz/cell-2.rviz"/>
 </launch>
 

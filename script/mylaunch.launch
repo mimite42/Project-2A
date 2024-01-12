@@ -1,0 +1,14 @@
+<launch>
+  <!-- Load URDF and SRDF -->
+  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find your_package_name)/home/younes/ur3_ws/src/test/sigma_cell.xacro'" />
+  <param name="robot_description_semantic" textfile="$(find test)/home/younes/ur3_ws/src/test_moveit/config/sigma_cell.srdf" />
+
+  <!-- Load the MoveIt configuration -->
+  <include file="$(find your_package_name)/home/younes/ur3_ws/src/test_moveit/launch/demo.launch" />
+
+  <!-- MoveIt RViz configuration -->
+  <include file="$(find your_package_name)/home/younes/ur3_ws/src/test_moveit/launch/moveit_rviz.launch">
+    <arg name="config" value="true" />
+  </include>
+</launch>
+
