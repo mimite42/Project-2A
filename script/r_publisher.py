@@ -8,17 +8,17 @@ from moveit_commander import RobotCommander, MoveGroupCommander, PlanningSceneIn
 import json
 import moveit_commander
 
+# Global set to store processed marker IDs
+processed_markers = set()
 
 def load_json(filename):
     with open(filename, 'r') as file:
         data = json.load(file)
     return data
 
-
-def move_to_position(move_group, x, y, z, move_group_gripper):
-    # Get the initial joint values
+def move_to_position(move_group, x, y, z, move_group_gripper, vis_pub, marker_id):
     initial_joint_values = move_group.get_current_joint_values()
-    
+
     pose_target = PoseStamped()
     pose_target.header.frame_id = "base_link"
     pose_target.pose.position.x = x
@@ -49,6 +49,9 @@ def move_to_position(move_group, x, y, z, move_group_gripper):
     move_group_gripper.stop()
     move_group_gripper.clear_pose_targets()
 
+    # Delete the marker after the gripper opens
+    delete_marker(vis_pub, [marker_id])
+
     rospy.sleep(4.5)  # Simulate gripper closing time
 
     # Set the robot to the same pose but with a modified y coordinate
@@ -68,6 +71,58 @@ def move_to_position(move_group, x, y, z, move_group_gripper):
     move_group_gripper.stop()
     move_group_gripper.clear_pose_targets()
 
+    # Update the marker position without deleting it
+    update_marker_position(vis_pub, marker_id, x, -y)
+
+def update_marker_position(pub, marker_id, new_x, new_y):
+    marker = Marker()
+    marker.header.frame_id = "base_link"
+    marker.header.stamp = rospy.Time.now()
+    marker.ns = "my_namespace"
+    marker.id = marker_id
+    marker.type = Marker.CUBE
+    marker.action = Marker.ADD
+    marker.pose.position.x = new_x
+    marker.pose.position.y = new_y
+    marker.pose.position.z = 0.05
+    marker.pose.orientation.x = 0.0
+    marker.pose.orientation.y = 0.0
+    marker.pose.orientation.z = 0.0
+    marker.pose.orientation.w = 1.0
+    marker.scale.x = 0.01
+    marker.scale.y = 0.01
+    marker.scale.z = 0.01
+    marker.color.a = 1.0
+    marker.color.r = 1.0
+    marker.color.g = 0.0
+    marker.color.b = 0.0
+
+    add_marker(pub, [marker])
+
+# ... (your existing code)
+
+
+def add_marker(pub, markers):
+    marker_array = MarkerArray(markers)
+    pub.publish(marker_array)
+
+def delete_marker(pub, marker_ids):
+    marker_array = MarkerArray()
+    for marker_id in marker_ids:
+        marker = Marker()
+        marker.header.frame_id = "base_link"
+        marker.header.stamp = rospy.Time.now()
+        marker.ns = "my_namespace"
+        marker.id = marker_id
+        marker.action = Marker.DELETE
+        marker_array.markers.append(marker)
+    pub.publish(marker_array)
+
+# ... (your existing code)
+
+# ... (your existing code)
+
+# ... (your existing code)
 
 def main():
     rospy.init_node('r_publisher')
@@ -77,7 +132,7 @@ def main():
     moveit_commander.roscpp_initialize(sys.argv)
     robot = RobotCommander()
     move_group = MoveGroupCommander("ur_robot")
-    move_group_gripper = MoveGroupCommander("gripper")  # Define move_group_gripper here
+    move_group_gripper = MoveGroupCommander("gripper")
     scene = PlanningSceneInterface()
 
     json_data = load_json('/home/younes/drari/Project-2A/src/bonding.json')
@@ -86,7 +141,6 @@ def main():
     placing_data = json_data["placing"]
 
     while not rospy.is_shutdown():
-      
         marker_array = MarkerArray()
 
         rows = picking_data["magnet_per_row"]
@@ -94,12 +148,16 @@ def main():
 
         for i in range(rows):
             for j in range(cols):
+                marker_id = i * cols + j
+                if marker_id in processed_markers:
+                    continue  # Skip if marker has already been processed
+
                 marker = Marker()
                 marker.header.frame_id = "base_link"
                 marker.header.stamp = rospy.Time()
                 marker.ns = "my_namespace"
-                marker.id = i * cols + j  # Unique ID for each marker
-                marker.type = Marker.CUBE  # Use CUBE type for cubes
+                marker.id = marker_id
+                marker.type = Marker.CUBE
                 marker.action = Marker.ADD
                 marker.pose.position.x = picking_data["first_magnet"]["x"] + j * 0.05
                 marker.pose.position.y = picking_data["first_magnet"]["y"] - i * 0.035
@@ -108,28 +166,33 @@ def main():
                 marker.pose.orientation.y = 0.0
                 marker.pose.orientation.z = 0.0
                 marker.pose.orientation.w = 1.0
-                marker.scale.x = 0.01  # Convert to meters
+                marker.scale.x = 0.01
                 marker.scale.y = 0.01
                 marker.scale.z = 0.01
                 marker.color.a = 1.0
-                marker.color.r = 1.0  # Red
+                marker.color.r = 1.0
                 marker.color.g = 0.0
                 marker.color.b = 0.0
 
-                # Move the robot to the marker position
-                move_to_position(move_group, marker.pose.position.x, marker.pose.position.y, marker.pose.position.z, move_group_gripper)
+                # Move to position and close/open gripper
+                move_to_position(move_group, marker.pose.position.x, marker.pose.position.y, marker.pose.position.z, move_group_gripper, vis_pub, marker_id)
 
-                # Manually adjust the cube marker to simulate grasping
-                rospy.sleep(2.0)  # Simulate grasping time
+                # Simulate grasping time
+                rospy.sleep(2.0)
 
-                # Manually adjust the cube marker to simulate placing
-                marker.pose.position.z = 0.1  # Set the new height for placing
-                vis_pub.publish(marker_array)  # Publish the updated marker position
-                rospy.sleep(1.0)  # Simulate placing time
-
+                # Simulate placing time and add marker
+                marker.pose.position.z = 0.1
                 marker_array.markers.append(marker)
 
-        vis_pub.publish(marker_array)
+                # Change the marker ID before adding it to processed_markers
+                new_marker_id = marker_id + 1000  # You can use any strategy to create a new ID
+                processed_markers.add(new_marker_id)
+
+                # Delete the marker after processing
+                delete_marker(vis_pub, [marker_id])
+
+        # Add all the processed markers to the MarkerArray
+        add_marker(vis_pub, marker_array.markers)
         rate.sleep()
 
 if __name__ == '__main__':
@@ -137,4 +200,5 @@ if __name__ == '__main__':
         main()
     except rospy.ROSInterruptException:
         pass
+
 

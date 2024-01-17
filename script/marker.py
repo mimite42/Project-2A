@@ -44,7 +44,7 @@ def main():
                 marker.pose.position.y = (
                     picking_data["first_magnet"]["y"] - i * 0.035
                 )
-                marker.pose.position.z = picking_data["first_magnet"]["z"] +0.01
+                marker.pose.position.z = 0.05
                 marker.pose.orientation.x = 0.0
                 marker.pose.orientation.y = 0.0
                 marker.pose.orientation.z = 0.0
