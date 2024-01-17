@@ -1,0 +1,14 @@
+# Define the Rotate goal
+int32 rows 
+int32 cols
+float32 first_mag_x 
+float32 first_mag_y 
+float32 first_mag_z
+
+---
+# Define result's message
+---
+# Define feedback's message
+
+
+#http://wiki.ros.org/actionlib
