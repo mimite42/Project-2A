@@ -15,6 +15,9 @@ find_package(catkin REQUIRED COMPONENTS
 add_action_files(
   FILES
   pose.action
+  Move.action
+  Robot.action
+  ur_robot.action
 )
 
 # Déclarez que le package dépend de la génération des messages d'action
@@ -40,6 +43,7 @@ install(DIRECTORY
 
 install(FILES
   sigma_cell.xacro
+  sigma.xacro
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
@@ -50,7 +54,7 @@ install(DIRECTORY
   PATTERN ".svn" EXCLUDE
 )
 
-catkin_install_python(PROGRAMS script/moveit_tutorial.py script/myfile.py script/marker.py script/marker_publisher.py script/r_publisher.py script/test_publish_markerarray.py
+catkin_install_python(PROGRAMS script/moveit_tutorial.py script/myfile.py script/marker.py script/marker_publisher.py script/r_publisher.py script/test_publish_markerarray.py action_script/pr_move.py action_script/test_move.py action_script/test_Robot.py action_script/pr_robot.py action_script/test_robot.py action_script/sk_UR_robot.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
