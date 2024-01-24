@@ -1,0 +1,15 @@
+# Define the Rotate goal
+string path
+---
+# Define result's message
+# Add any fields you need in the result message
+int32 rows 
+int32 cols
+float32 first_mag_x 
+float32 first_mag_y 
+float32 first_mag_z
+
+---
+# Define feedback's message
+# Add any fields you need in the feedback message
+

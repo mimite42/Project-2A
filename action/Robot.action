@@ -1,0 +1,15 @@
+# Define the Rotate goal
+int32 rows 
+int32 cols
+float32 first_x 
+float32 first_y 
+float32 first_z
+---
+# Define result's message
+# Add any fields you need in the result message
+
+
+---
+# Define feedback's message
+# Add any fields you need in the feedback message
+
