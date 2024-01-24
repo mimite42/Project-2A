@@ -6,17 +6,17 @@ import actionlib
 import test.msg
 
 def main():
-    rospy.init_node("test_move")
+    rospy.init_node("test_skill_node")
 
     client = actionlib.SimpleActionClient(
-        "Move_2", test.msg.MoveAction 
+        "robot_skill", test.msg.ur_robotAction
     )
     client.wait_for_server()
-    goal = test.msg.MoveGoal()
+    goal = test.msg.ur_robotGoal()
     rate = rospy.Rate(60)
 
     while not rospy.is_shutdown():
-        goal.path ='/home/younes/drari/Project-2A/src/bonding.json'
+        goal.sk_path = '/home/younes/drari/Project-2A/src/bonding.json'
 
         client.send_goal(goal)
         client.wait_for_result()
