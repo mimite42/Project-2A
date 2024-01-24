@@ -54,7 +54,7 @@ install(DIRECTORY
   PATTERN ".svn" EXCLUDE
 )
 
-catkin_install_python(PROGRAMS script/moveit_tutorial.py script/myfile.py script/marker.py script/marker_publisher.py script/r_publisher.py script/test_publish_markerarray.py action_script/pr_move.py action_script/test_move.py action_script/test_Robot.py action_script/pr_robot.py action_script/test_robot.py action_script/sk_UR_robot.py
+catkin_install_python(PROGRAMS script/moveit_tutorial.py script/myfile.py script/marker.py script/marker_publisher.py script/r_publisher.py script/test_publish_markerarray.py action_script/pr_move.py action_script/test_move.py action_script/pr_robot.py action_script/test_robot.py action_script/sk_UR_robot.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

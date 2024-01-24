@@ -4,8 +4,10 @@
 import rospy
 import actionlib
 import test.msg
+import rospkg
 
 def main():
+	r = rospkg.RosPack()
     rospy.init_node("test_move")
 
     client = actionlib.SimpleActionClient(
@@ -16,7 +18,9 @@ def main():
     rate = rospy.Rate(60)
 
     while not rospy.is_shutdown():
-        goal.path ='/home/younes/drari/Project-2A/src/bonding.json'
+    	path = r.get_path('test')
+
+        goal.path = path+'/src/bonding.json'
 
         client.send_goal(goal)
         client.wait_for_result()

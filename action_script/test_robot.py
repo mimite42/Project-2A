@@ -4,10 +4,12 @@
 import rospy
 import actionlib
 import test.msg
+import rospkg
 
 def main():
+    r = rospkg.RosPack()
     rospy.init_node("test_skill_node")
-
+    
     client = actionlib.SimpleActionClient(
         "robot_skill", test.msg.ur_robotAction
     )
@@ -16,7 +18,8 @@ def main():
     rate = rospy.Rate(60)
 
     while not rospy.is_shutdown():
-        goal.sk_path = '/home/younes/drari/Project-2A/src/bonding.json'
+        path = r.get_path('test')
+        goal.sk_path = path+'/src/bonding.json'
 
         client.send_goal(goal)
         client.wait_for_result()
