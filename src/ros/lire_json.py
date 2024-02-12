@@ -33,7 +33,7 @@ premier_magnet = [premier_magnet['x'], premier_magnet['y'], premier_magnet['z']]
 # print(f"Épaisseur : {epaisseur_magnet}")
 
 # print("\nDonnées de picking :")
-# print(premier_magnet)
+print(premier_magnet)
 # print(type(premier_magnet))
 # print(f"Espacement vertical : {espacement_vertical}")
 # print(f"Espacement horizontal : {espacement_horizontal}")

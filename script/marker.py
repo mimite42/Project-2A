@@ -14,7 +14,7 @@ def main():
     vis_pub = rospy.Publisher('visualization_marker_array', MarkerArray, queue_size=0)
     rate = rospy.Rate(1)  # 1 Hz
 
-    json_data = load_json('/home/younes/drari/Project-2A/src/bonding.json')
+    json_data = load_json('/home/yoann/catkin_ws/src/test/src/bonding.json')
 
     magnet_length = json_data["Magnet"]["length"]
     magnet_width = json_data["Magnet"]["width"]

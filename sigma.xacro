@@ -40,6 +40,9 @@
 	<origin xyz="0 0 0.017" rpy="0 0 0"/> 
 </joint>
 
+
+
+
 <link name = "end_eff"> </link> 
 		<joint name="gripper_end_eff" type="fixed">
 		    <parent link="tool0" />
