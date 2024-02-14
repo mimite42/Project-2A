@@ -57,11 +57,6 @@
 		    <origin xyz="0 0 0" rpy="0 0 0"/>
 		</joint>
 		
-<link name = "end_eff"> </link>
-<joint name = "gripper_end_eff" type = "fixed">
-	<parent  link="tool0"/>
-	<child link="end_eff"/>
-	<origin xyz = "0 0 0.1" rpy="0 0 0"/>
-	</joint>
+
 
 </robot>

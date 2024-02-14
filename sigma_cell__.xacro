@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="sigma_cell">
+
+
+<link name="world"/>
+
+<link name = "cell_link">    
+	<visual>
+	<origin xyz= "0.63 0.40 0" rpy= "0 0 0"/>
+	<geometry>
+		<mesh filename="package://test/support/meshes/ur3e_frame_rack.stl" scale='0.001 0.001 0.001'/>
+	</geometry>
+	<material name="cell">
+		<color rgba="0.5 0.5 0.5 1.0"/>
+	</material>
+	</visual>
+	<collision>
+	<origin xyz= "0.63 0.40 0" rpy= "0 0 0"/>
+	<geometry>
+		<mesh filename="package://test/support/meshes/ur3e_frame_rack.stl" scale='0.001 0.001 0.001'/>
+	</geometry>
+	</collision>
+</link>
+	  
+		  <!-- defining cell position in world frame -->  
+	<joint name="cell_joint" type="fixed">
+	<parent link="world" />
+	<child link = "cell_link" />
+	<origin xyz= "0 0 0" rpy= "0 0 1.57"/>
+	</joint>
+
+
+
+<xacro:include filename="$(find ur_description)/urdf/ur3e.xacro"/>
+
+		
+
+<joint name="base_joint" type="fixed">
+	<parent link="cell_link" />
+	<child link = "base_link" />
+	<origin xyz="0 0 0.015" rpy="0 0 0"/> 
+</joint>
+
+<link name = "end_eff"> </link> 
+		<joint name="gripper_end_eff" type="fixed">
+		    <parent link="tool0" />
+		    <child link = "end_eff" />
+		    <origin xyz="0 0 0.1" rpy="0 0 0"/>
+		</joint>
+	
+<xacro:include filename="$(find onrobot_2fg7_description)/urdf/onrobot_2fg7.xacro"/>
+<xacro:onrobot_2fg7_gripper  prefix="gripper_" finger_configuration="inwards"/>
+  		
+		<joint name="gripper_base_joint" type="fixed">
+		    <parent link="tool0" />
+		    <child link = "gripper_base_link" />
+		    <origin xyz="0 0 0" rpy="0 0 0"/>
+		</joint>
+		
+
+
+</robot>

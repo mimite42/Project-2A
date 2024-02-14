@@ -42,7 +42,27 @@ class RobotActionServer:
         self.move_group.stop()
         self.move_group.clear_pose_targets()
 
-        rospy.sleep(1)  # Simulate gripper closing time
+        rospy.sleep(1) 
+        pose_target.pose.position.z = 0.1
+        self.move_group.set_pose_target(pose_target)
+        self.move_group.set_planning_time(5.0)  # Set planning time in seconds
+        self.move_group.set_num_planning_attempts(5)  # Set number of planning attempts
+        plan = self.move_group.go(wait=True)
+        self.move_group.stop()
+        self.move_group.clear_pose_targets() # Simulate gripper closing time
+        rospy.sleep(1)
+        pose_target.pose.position.x = x
+        pose_target.pose.position.y = y
+        pose_target.pose.position.z = z
+        
+        self.move_group.set_pose_target(pose_target)
+        self.move_group.set_planning_time(5.0)  # Set planning time in seconds
+        self.move_group.set_num_planning_attempts(5)  # Set number of planning attempts
+        plan = self.move_group.go(wait=True)
+        self.move_group.stop()
+        self.move_group.clear_pose_targets()
+
+        rospy.sleep(1) 
 
         # Set the robot to the same pose but with a modified y coordinate
         pose_target.pose.position.x = 0.85
@@ -54,7 +74,31 @@ class RobotActionServer:
         plan = self.move_group.go(wait=True)
         self.move_group.stop()
         self.move_group.clear_pose_targets()
+        rospy.sleep(1) 
 
+        # Set the robot to the same pose but with a modified y coordinate
+        pose_target.pose.position.x = 0.85
+        pose_target.pose.position.y = 0  # Modify the y coordinate
+        pose_target.pose.position.z = 0.1
+        self.move_group.set_pose_target(pose_target)
+        self.move_group.set_planning_time(5.0)  # Set planning time in seconds
+        self.move_group.set_num_planning_attempts(5)  # Set number of planning attempts
+        plan = self.move_group.go(wait=True)
+        self.move_group.stop()
+        self.move_group.clear_pose_targets()
+        rospy.sleep(1) 
+
+        # Set the robot to the same pose but with a modified y coordinate
+        pose_target.pose.position.x = 0.85
+        pose_target.pose.position.y = 0  # Modify the y coordinate
+        pose_target.pose.position.z = 0.2
+        self.move_group.set_pose_target(pose_target)
+        self.move_group.set_planning_time(5.0)  # Set planning time in seconds
+        self.move_group.set_num_planning_attempts(5)  # Set number of planning attempts
+        plan = self.move_group.go(wait=True)
+        self.move_group.stop()
+        self.move_group.clear_pose_targets()
+        rospy.sleep(1) 
 
 
     def execute_cb(self, goal):
